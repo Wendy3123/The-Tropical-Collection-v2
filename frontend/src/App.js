@@ -1,7 +1,7 @@
 import React from "react";
 
 function App() {
-  return <p>Welcome to The Tropical Collection</p>;
+  return <h1>Welcome to The Tropical Collection</h1>;
 }
 
 export default App;
