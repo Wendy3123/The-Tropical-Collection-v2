@@ -1,31 +1,38 @@
-import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/logo.png";
+import { LinkContainer } from "react-router-bootstrap";
+// to use LinkContainer to='/' is similar to the Link from react-router-dom but this is for BOOTSTRAP href=''
 
 function Header() {
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
-          {/* navbar brand sets the brand to left side  */}
-          <Navbar.Brand href="/">
-            <img src={logo} alt="Logo" width="50px" />
-            The Tropical Collection
-          </Navbar.Brand>
+          <LinkContainer to="/">
+            {/* navbar brand sets the brand to left side  */}
+            <Navbar.Brand href="/">
+              <img src={logo} alt="Logo" width="50px" />
+              The Tropical Collection
+            </Navbar.Brand>
+          </LinkContainer>
           {/* navbar toggle works together with the navbar collapse */}
           <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav">
             {/* ms-auto shifts the items to the right rather than left*/}
             <Nav className="ms-auto">
-              <Nav.Link href="/cart">
-                <FaShoppingCart />
-                Cart
-              </Nav.Link>
-              <Nav.Link href="/login">
-                <FaUser />
-                Sign In
-              </Nav.Link>
+              <LinkContainer to="/cart">
+                <Nav.Link>
+                  <FaShoppingCart />
+                  Cart
+                </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/login">
+                <Nav.Link>
+                  <FaUser />
+                  Sign In
+                </Nav.Link>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>

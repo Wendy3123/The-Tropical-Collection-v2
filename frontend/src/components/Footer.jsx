@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 function Footer() {
@@ -9,7 +8,7 @@ function Footer() {
         <Row>
           <Col className="text-center" py-3>
             {/* the &copy; prints the symbol c ==> ©  */}
-            <p>The Tropical Colelction &copy; {currentYear}</p>
+            <p>The Tropical Collection &copy; {currentYear}</p>
           </Col>
         </Row>
       </Container>
