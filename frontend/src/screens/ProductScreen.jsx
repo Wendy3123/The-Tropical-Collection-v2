@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
@@ -10,11 +9,12 @@ function ProductScreen() {
   const { id: productId } = useParams();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await axios.get(`/api/products/${productId}`);
-      setProduct(data);
+    const fetchData = async () => {
+      const res = await fetch(`/api/products/${productId}`);
+      const resData = await res.json();
+      setProduct(resData);
     };
-    fetchProduct();
+    fetchData();
   }, [productId]);
 
   return (
