@@ -9,7 +9,7 @@ const errorHandler = (err, req, res, next) => {
   let message = err.message;
   //if we go to a specific product that does exist
   if (err.name === "CastError" && err.kind === "ObjectId") {
-    message = `Resourcce not found`;
+    message = `Resource not found`;
     statusCode = 404;
   }
   res.status(statusCode).json({
