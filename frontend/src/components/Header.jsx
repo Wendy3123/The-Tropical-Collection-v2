@@ -1,10 +1,13 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Badge } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/logo.png";
+import { useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 // to use LinkContainer to='/' is similar to the Link from react-router-dom but this is for BOOTSTRAP href=''
 
 function Header() {
+  const { cartItems } = useSelector((state) => state.cart);
+
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
@@ -25,6 +28,14 @@ function Header() {
                 <Nav.Link>
                   <FaShoppingCart />
                   Cart
+                  {cartItems.length > 0 && (
+                    <Badge pill bg="success" style={{ marginLeft: "5px" }}>
+                      {cartItems.reduce(
+                        (acc, currentItem) => acc + currentItem.qty,
+                        0
+                      )}
+                    </Badge>
+                  )}
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to="/login">
