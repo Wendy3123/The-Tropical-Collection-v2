@@ -5,7 +5,20 @@ import User from "../models/userModel.js";
 //@access         Public
 const authUser = async (req, res) => {
   try {
-    res.send("auth user");
+    // console.log(req.body)
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    //if there is a user
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
+    } else {
+      res.send(401, { messsage: "Invalid email or password" });
+    }
   } catch (error) {
     console.log(error.messsage);
     res.send(404).json({ errorInfo: error.message });

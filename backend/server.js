@@ -11,6 +11,10 @@ connectDB();
 
 const app = express();
 
+//Body Parser Middleware (gets us data back so we can console.log in our code)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("API IS RUNNING.....");
 });
