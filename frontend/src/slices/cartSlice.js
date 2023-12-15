@@ -22,8 +22,14 @@ const cartSlice = createSlice({
       }
       return updateCart(state);
     },
+    removeFromCart: (state, action) => {
+      //the id will be passed in as the action.payload in cartSlice
+      //returns all cartitems except the one equal to the action.payload which is the one we want to delete (thats why we use .filter)
+      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
+      return updateCart(state);
+    },
   },
 });
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
