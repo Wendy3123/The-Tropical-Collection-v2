@@ -30,5 +30,17 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+//.pre() allows you to do something before its 'save' in the database
+//so .pre() will run before ==> we will hash password before it goes to database
+userSchema.pre("save", async function (next) {
+  //if we are just saving some user data but not dealing with the password it will just move on next()
+  if (!this.isModified("password")) {
+    next();
+  }
+  //else hash password etc
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
 const User = mongoose.model("User", userSchema);
 export default User;

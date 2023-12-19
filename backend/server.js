@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 dotenv.config();
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -14,6 +15,9 @@ const app = express();
 //Body Parser Middleware (gets us data back so we can console.log in our code)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//cookie parser middleware (allow us to access req.cookies and since our cookie is called jwt we can access req.cookies.jwt)
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("API IS RUNNING.....");
