@@ -6,7 +6,7 @@ function Footer() {
     <footer>
       <Container>
         <Row>
-          <Col className="text-center" py-3>
+          <Col className="text-center py-3">
             {/* the &copy; prints the symbol c ==> ©  */}
             <p>The Tropical Collection &copy; {currentYear}</p>
           </Col>
