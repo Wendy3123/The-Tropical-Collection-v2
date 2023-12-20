@@ -18,8 +18,8 @@ function ShippingScreen() {
   );
   const [country, setCountry] = useState(shippingAddress?.country || "");
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
