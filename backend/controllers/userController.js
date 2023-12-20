@@ -19,7 +19,8 @@ const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     });
   } else {
-    res.send(401, { messsage: "Invalid email or password" });
+    res.status(401);
+    throw new Error("Invalid email or password");
   }
 });
 
