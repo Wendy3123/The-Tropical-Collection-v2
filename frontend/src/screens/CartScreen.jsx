@@ -48,14 +48,16 @@ function CartScreen() {
             {cartItems.map((item) => (
               <ListGroup.Item key={item._id}>
                 <Row>
-                  <Col md={2}>
+                  <Col md={2} sm={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
-                  <Col md={3}>
+                  <Col md={3} sm={2}>
                     <Link to={`/product/${item._id}`}>{item.name}</Link>
                   </Col>
-                  <Col md={2}>${item.price}</Col>
-                  <Col md={2}>
+                  <Col md={2} sm={2}>
+                    ${item.price}
+                  </Col>
+                  <Col md={2} sm={2}>
                     <Form.Control
                       as="select"
                       value={item.qty}
@@ -70,7 +72,7 @@ function CartScreen() {
                       ))}
                     </Form.Control>
                   </Col>
-                  <Col md={2}>
+                  <Col md={2} sm={2}>
                     <Button
                       type="button"
                       variant="light"
