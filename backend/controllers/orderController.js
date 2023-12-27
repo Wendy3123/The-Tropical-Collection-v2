@@ -60,7 +60,7 @@ const getOrderById = asyncHandler(async (req, res) => {
   if (order) {
     res.status(200).json(order);
   } else {
-    res.status(400);
+    res.status(404);
     throw new Error("Order not found");
   }
 });
@@ -82,7 +82,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     const updatedOrder = await order.save(); //save in database and set to variable updatedOrder
     res.status(200).json(updatedOrder); //respond with 200 and pass in updated order
   } else {
-    res.status(400);
+    res.status(404);
     throw new Error("Order not found");
   }
 });
@@ -91,7 +91,16 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 //@route          PUT /api/orders/:id/deliver
 //@access         Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  res.send("update order to delivered");
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    const updatedOrder = await order.save();
+    res.status(200).json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
 });
 
 //@description    Get all orders
