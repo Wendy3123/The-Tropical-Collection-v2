@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import {
   createProduct,
+  deleteProduct,
   getProductById,
   getProducts,
   updateProduct,
@@ -16,6 +17,10 @@ router.route("/").get(getProducts).post(protect, admin, createProduct);
 // router.get("/:id", async (req, res) => {
 //   getProductById();
 // });
-router.route("/:id").get(getProductById).put(protect, admin, updateProduct);
+router
+  .route("/:id")
+  .get(getProductById)
+  .put(protect, admin, updateProduct)
+  .delete(protect, admin, deleteProduct);
 
 export default router;
