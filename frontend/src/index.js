@@ -40,6 +40,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       {/* put index=true to let it know the index page or it might show two screen */}
       <Route index={true} path="/" element={<HomeScreen />} />
+      <Route path="/page/:pageNumber" element={<HomeScreen />} />
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/cart" element={<CartScreen />} />
       <Route path="/login" element={<LoginScreen />} />

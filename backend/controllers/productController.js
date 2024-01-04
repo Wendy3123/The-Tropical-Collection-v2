@@ -11,8 +11,13 @@ const getProducts = asyncHandler(async (req, res) => {
   //   console.log(error.messsage);
   //   res.send(404).json({ errorInfo: error.message });
   // }
-  const products = await Product.find({});
-  res.json(products);
+  const pageSize = 2;
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await Product.countDocuments(); //gets total amount of products
+  const products = await Product.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 //FETCHES SPECIFIC PRODUCT WITH REQ.PARAM.ID  ==> /api/products/:id
