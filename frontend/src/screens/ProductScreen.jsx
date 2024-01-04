@@ -22,7 +22,6 @@ import {
 import { addToCart } from "../slices/cartSlice";
 
 function ProductScreen() {
-  // const [product, setProduct] = useState([]);
   const { id: productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,6 +30,11 @@ function ProductScreen() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, qty }));
+    navigate("/cart");
+  };
+
   const {
     data: product,
     isLoading,
@@ -38,10 +42,10 @@ function ProductScreen() {
     error,
   } = useGetProductDetailsQuery(productId);
 
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
-
-  const { userInfo } = useSelector((state) => state.auth);
   // useEffect(() => {
   //   const fetchData = async () => {
   //     const res = await fetch(`/api/products/${productId}`);
@@ -50,10 +54,6 @@ function ProductScreen() {
   //   };
   //   fetchData();
   // }, [productId]);
-  const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, qty }));
-    navigate("/cart");
-  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -80,13 +80,15 @@ function ProductScreen() {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error.data.message || error.error}</Message>
+        <Message variant="danger">
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <>
           <Row>
             <Col md={5}>
               {/* fluid makes img smalelr and responsive*/}
-              <Image src={product.image} alt={product.name} fluid></Image>
+              <Image src={product.image} alt={product.name} fluid />
             </Col>
             <Col md={4}>
               <ListGroup variant="flush">
@@ -188,7 +190,7 @@ function ProductScreen() {
                         <Form.Label>Rating</Form.Label>
                         <Form.Control
                           as="select"
-                          value="rating"
+                          value={rating}
                           onChange={(e) => setRating(Number(e.target.value))}
                         >
                           <option value="">Select...</option>
