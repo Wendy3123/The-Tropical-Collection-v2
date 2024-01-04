@@ -8,9 +8,12 @@ import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 
 function HomeScreen() {
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
   //replacing react useState and fetch request with redux apiSlice
-  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
   // const [products, setProducts] = useState([]);
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -39,7 +42,11 @@ function HomeScreen() {
               </Col>
             ))}
           </Row>
-          <Paginate pages={data.pages} page={data.page} />
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </>

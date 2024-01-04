@@ -11,10 +11,14 @@ const getProducts = asyncHandler(async (req, res) => {
   //   console.log(error.messsage);
   //   res.send(404).json({ errorInfo: error.message });
   // }
-  const pageSize = 4;
+  const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
-  const count = await Product.countDocuments(); //gets total amount of products
-  const products = await Product.find({})
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } } //options case insensitive
+    : {};
+
+  const count = await Product.countDocuments({ ...keyword }); //gets total amount of products
+  const products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
