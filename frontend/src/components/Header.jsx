@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
+import SearchBox from "./SearchBox";
 // to use LinkContainer to='/' is similar to the Link from react-router-dom but this is for BOOTSTRAP href=''
 
 function Header() {
@@ -28,7 +29,7 @@ function Header() {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
             {/* navbar brand sets the brand to left side  */}
@@ -42,6 +43,7 @@ function Header() {
           <Navbar.Collapse id="basic-navbar-nav">
             {/* ms-auto shifts the items to the right rather than left*/}
             <Nav className="ms-auto">
+              <SearchBox />
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart />
