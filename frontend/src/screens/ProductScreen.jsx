@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import Meta from "../components/Meta";
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
@@ -85,6 +86,7 @@ function ProductScreen() {
         </Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={5}>
               {/* fluid makes img smalelr and responsive*/}

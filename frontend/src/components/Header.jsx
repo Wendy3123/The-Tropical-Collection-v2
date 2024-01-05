@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 import SearchBox from "./SearchBox";
+import { resetCart } from "../slices/cartSlice";
 // to use LinkContainer to='/' is similar to the Link from react-router-dom but this is for BOOTSTRAP href=''
 
 function Header() {
@@ -21,6 +22,7 @@ function Header() {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
+      dispatch(resetCart());
       navigate("/login");
     } catch (err) {
       console.log(err);

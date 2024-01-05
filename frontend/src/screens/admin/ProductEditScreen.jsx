@@ -88,7 +88,7 @@ function ProductEditScreen() {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{error}</Message>
+          <Message variant="danger">{error.data.message}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
@@ -123,6 +123,7 @@ function ProductEditScreen() {
                 onChange={uploadFileHandler}
               ></Form.Control>
             </Form.Group>
+            {loadingUpload && <Loader />}
 
             <Form.Group controlId="countInStock" className="my-2">
               <Form.Label>Count In Stock</Form.Label>
