@@ -43,7 +43,7 @@ function HomeScreen() {
           <Row>
             {data.products.map((product) => (
               // column is responsive and sm screens take 12 columns on md takes 6 screens lg takes 4 xl takes 3 screens
-              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+              <Col key={product._id} sm={9} md={6} lg={4} xl={3}>
                 <Product product={product} />
               </Col>
             ))}
