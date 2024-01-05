@@ -24,10 +24,13 @@ function ProductCarousel() {
             <Image
               src={product.image}
               alt={product.name}
-              style={{ width: "55%", height: "480px" }}
+              style={{ width: "50%", height: "480px" }}
               fluid
             />
-            <h6 className="carousel-text">{product.description}</h6>
+            <div className="carousel-text">
+              <h3 className="carousel-bigtext">Our Top Rated Products</h3>
+              <p className="carousel-smalltext">{product.description}</p>
+            </div>
             <Carousel.Caption className="carousel-caption">
               <h2>
                 {product.name} (${product.price})

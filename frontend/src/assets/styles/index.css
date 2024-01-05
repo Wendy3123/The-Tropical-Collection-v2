@@ -55,8 +55,16 @@ table th {
 .carousel-text {
   position: absolute;
   width: 100%;
-  left: 62%;
-  top: 10%;
-  padding-right: 72%;
-  font-size: 20px;
+  left: 55%;
+  top: 7%;
+  padding-right: 65%;
+}
+
+.carousel-bigtext {
+  font-size: 30px;
+}
+.carousel-smalltext {
+  font-size: 19px;
+  color: rgb(230, 214, 214);
+  padding-bottom: 1030%;
 }
