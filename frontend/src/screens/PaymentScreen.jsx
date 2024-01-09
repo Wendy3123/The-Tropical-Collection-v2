@@ -7,19 +7,20 @@ import { Form, Button, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
 
-function PaymentScreen() {
-  const [paymentMethod, setPaymentMethod] = useState("Paypal");
-  const dispatch = useDispatch();
+const PaymentScreen = () => {
   const navigate = useNavigate();
-
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
   useEffect(() => {
-    if (!shippingAddress) {
+    if (!shippingAddress.address) {
       navigate("/shipping");
     }
-  }, [shippingAddress, navigate]);
+  }, [navigate, shippingAddress]);
+
+  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+
+  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -36,8 +37,8 @@ function PaymentScreen() {
           <Form.Label as="legend">Select Method</Form.Label>
           <Col>
             <Form.Check
-              type="radio"
               className="my-2"
+              type="radio"
               label="PayPal or Credit Card"
               id="PayPal"
               name="paymentMethod"
@@ -47,12 +48,13 @@ function PaymentScreen() {
             ></Form.Check>
           </Col>
         </Form.Group>
+
         <Button type="submit" variant="primary">
           Continue
         </Button>
       </Form>
     </FormContainer>
   );
-}
+};
 
 export default PaymentScreen;

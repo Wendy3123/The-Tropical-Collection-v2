@@ -21,11 +21,11 @@ function CartScreen() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const addToCartHandler = async (product, qty) => {
+  const addToCartHandler = (product, qty) => {
     dispatch(addToCart({ ...product, qty }));
   };
 
-  const removeFromCartHandler = async (id) => {
+  const removeFromCartHandler = (id) => {
     //the id will be passed in as the action.payload in cartSlice
     dispatch(removeFromCart(id));
   };
@@ -34,7 +34,6 @@ function CartScreen() {
     navigate("/login?redirect=/shipping");
   };
 
-  console.log("cart", cart);
   return (
     <Row>
       <Col md={8}>

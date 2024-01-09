@@ -26,17 +26,17 @@ function OrderScreen() {
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] =
     useDeliverOrderMutation();
+  const { userInfo } = useSelector((state) => state.auth);
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const {
     data: paypal,
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPayPalClientIdQuery();
-  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-      const loadPayPalScript = async () => {
+      const loadPaypalScript = async () => {
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -47,14 +47,12 @@ function OrderScreen() {
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
       if (order && !order.isPaid) {
-        //if window is not loaded alrdy then we laod it
         if (!window.paypal) {
-          loadPayPalScript();
+          loadPaypalScript();
         }
       }
     }
-  }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
-
+  }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
       try {
@@ -62,7 +60,7 @@ function OrderScreen() {
         refetch();
         toast.success("Payment successful");
       } catch (err) {
-        toast.error(err?.data?.message || err.message);
+        toast.error(err?.data?.message || err.error);
       }
     });
   }
@@ -120,8 +118,8 @@ function OrderScreen() {
                 {order.user.name}
               </p>
               <p>
-                <strong>Email: </strong>
-                {order.user.email}
+                <strong>Email: </strong>{" "}
+                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
               <p>
                 <strong>Address: </strong>
@@ -151,22 +149,34 @@ function OrderScreen() {
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {order.orderItems.map((item, index) => (
-                <ListGroup.Item key={index}>
-                  <Row>
-                    <Col md={2} sm={3}>
-                      <Image src={item.image} alt={item.name} fluid rounded />
-                    </Col>
-                    <Col>
-                      <Link to={`/product/${item.product}`}>{item.name}</Link>
-                    </Col>
-                    <Col md={4}>
-                      {item.qty} x ${item.price} = $
-                      {(item.qty * (item.price * 100)) / 100}
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              ))}
+              {order.orderItems.length === 0 ? (
+                <Message>Order is empty</Message>
+              ) : (
+                <ListGroup variant="flush">
+                  {order.orderItems.map((item, index) => (
+                    <ListGroup.Item key={index}>
+                      <Row>
+                        <Col md={2} sm={3}>
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fluid
+                            rounded
+                          />
+                        </Col>
+                        <Col>
+                          <Link to={`/product/${item.product}`}>
+                            {item.name}
+                          </Link>
+                        </Col>
+                        <Col md={4}>
+                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
             </ListGroup.Item>
           </ListGroup>
         </Col>

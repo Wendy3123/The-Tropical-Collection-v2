@@ -1,7 +1,7 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Row, Col } from "react-bootstrap";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import { useParams } from "react-router-dom";
@@ -15,27 +15,27 @@ import Paginate from "../../components/Paginate";
 
 function ProductListScreen() {
   const { pageNumber } = useParams();
+
   const { data, isLoading, error, refetch } = useGetProductsQuery({
     pageNumber,
   });
-
-  const [createProduct, { isLoading: loadingCreate }] =
-    useCreateProductMutation();
 
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
 
   const deleteHandler = async (id) => {
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm("Are you sure")) {
       try {
         await deleteProduct(id);
         refetch();
-        toast.success("Product deleted successfully");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
     }
   };
+
+  const [createProduct, { isLoading: loadingCreate }] =
+    useCreateProductMutation();
 
   const createProductHandler = async () => {
     if (window.confirm("Are you sure you want to create a new product?")) {
@@ -56,7 +56,7 @@ function ProductListScreen() {
         </Col>
         <Col className="text-end">
           <Button className="btn-sm m-3" onClick={createProductHandler}>
-            <FaEdit /> Create Product
+            <FaPlus /> Create Product
           </Button>
         </Col>
       </Row>
@@ -87,7 +87,7 @@ function ProductListScreen() {
                   <td>{product.category}</td>
                   <td>
                     <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant="light" className="btn-sm">
+                      <Button variant="light" className="btn-sm mx-2">
                         <FaEdit />
                       </Button>
                     </LinkContainer>

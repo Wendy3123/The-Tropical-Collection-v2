@@ -7,7 +7,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       query: (order) => ({
         url: ORDERS_URL,
         method: "POST",
-        body: { ...order },
+        body: order,
       }),
     }),
     getOrderDetails: builder.query({
@@ -20,7 +20,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT",
-        body: { ...details },
+        body: details,
       }),
     }),
     getPayPalClientId: builder.query({

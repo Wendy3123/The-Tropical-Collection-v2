@@ -24,8 +24,8 @@ function ProductEditScreen() {
     data: product,
     isLoading,
     error,
+    refetch,
   } = useGetProductDetailsQuery(productId);
-
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
 
@@ -33,6 +33,26 @@ function ProductEditScreen() {
     useUploadProductImageMutation();
 
   const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await updateProduct({
+        productId,
+        name,
+        price,
+        image,
+        category,
+        description,
+        countInStock,
+      }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
+      toast.success("Product updated");
+      refetch();
+      navigate("/admin/productlist");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
 
   useEffect(() => {
     if (product) {
@@ -44,26 +64,6 @@ function ProductEditScreen() {
       setDescription(product.description);
     }
   }, [product]);
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    const updatedProduct = {
-      _id: productId,
-      name,
-      price,
-      image,
-      category,
-      countInStock,
-      description,
-    };
-    const result = await updateProduct(updatedProduct);
-    if (result.error) {
-      toast.error(result.error);
-    } else {
-      toast.success("Product updated");
-      navigate("/admin/productlist");
-    }
-  };
 
   const uploadFileHandler = async (e) => {
     const formData = new FormData();

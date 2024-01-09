@@ -9,9 +9,9 @@ import { useRegisterMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
 
-function RegisterScreen() {
-  const [email, setEmail] = useState("");
+const RegisterScreen = () => {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -23,7 +23,6 @@ function RegisterScreen() {
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
-  //sp stands for search params
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
 
@@ -31,13 +30,13 @@ function RegisterScreen() {
     if (userInfo) {
       navigate(redirect);
     }
-  }, [userInfo, redirect, navigate]);
+  }, [navigate, redirect, userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
-      return;
     } else {
       try {
         const res = await register({ name, email, password }).unwrap();
@@ -51,9 +50,9 @@ function RegisterScreen() {
 
   return (
     <FormContainer>
-      <h1>Sign Up</h1>
+      <h1>Register</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="name" className="my-3">
+        <Form.Group className="my-2" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="name"
@@ -62,7 +61,8 @@ function RegisterScreen() {
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="email" className="my-3">
+
+        <Form.Group className="my-2" controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
@@ -71,7 +71,8 @@ function RegisterScreen() {
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="password" className="my-3">
+
+        <Form.Group className="my-2" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -80,28 +81,26 @@ function RegisterScreen() {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="confirmPassword" className="my-3">
+        <Form.Group className="my-2" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
-            type="confirmPassword"
+            type="password"
             placeholder="Confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Button
-          type="submit"
-          variant="primary"
-          className="mt-2"
-          disabled={isLoading}
-        >
+
+        <Button disabled={isLoading} type="submit" variant="primary">
           Register
         </Button>
+
         {isLoading && <Loader />}
       </Form>
+
       <Row className="py-3">
         <Col>
-          Already have an account? &nbsp;
+          Already have an account?{" "}
           <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
             Login
           </Link>
@@ -109,6 +108,6 @@ function RegisterScreen() {
       </Row>
     </FormContainer>
   );
-}
+};
 
 export default RegisterScreen;

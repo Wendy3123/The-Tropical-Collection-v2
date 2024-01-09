@@ -57,14 +57,14 @@ const registerUser = asyncHandler(async (req, res) => {
 //@description    Logout user and clear cookie
 //@route          POST /api/users/logout
 //@access         Private
-const logoutUser = asyncHandler(async (req, res) => {
+const logoutUser = (req, res) => {
   //clear cookie if user logs out res.cookie('nameOfCookie',value set to nothing so emptystring,{expires in 0 secs so expires right away})
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
   });
   res.status(200).json({ message: "Logged out successfully." });
-});
+};
 
 //@description    Get single user profile
 //@route          GET /api/users/profile
@@ -166,10 +166,10 @@ const updateUser = asyncHandler(async (req, res) => {
 
     const updatedUser = await user.save();
     res.status(200).json({
-      _id: updateUser._id,
-      name: updateUser.name,
-      email: updateUser.email,
-      isAdmin: updateUser.isAdmin,
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
     });
   } else {
     res.status(404);

@@ -27,6 +27,18 @@ function UserEditScreen() {
 
   const navigate = useNavigate();
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await updateUser({ userId, name, email, isAdmin });
+      toast.success("user updated successfully");
+      refetch();
+      navigate("/admin/userlist");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       setName(user.name);
@@ -34,18 +46,6 @@ function UserEditScreen() {
       setIsAdmin(user.isAdmin);
     }
   }, [user]);
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      await updateUser({ userId, name, email, isAdmin });
-      toast.success("User updated successfully");
-      refetch();
-      navigate("/admin/userlist");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
 
   return (
     <>
@@ -58,7 +58,9 @@ function UserEditScreen() {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{error}</Message>
+          <Message variant="danger">
+            {error?.data?.message || error.error}
+          </Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
